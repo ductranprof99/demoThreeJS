@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Millennium Falcon</title>
+
+		<link rel="stylesheet" href="public/index.css">
+
+    <script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://unpkg.com/three@v0.153.0/build/three.module.js",
+          "three/addons/": "https://unpkg.com/three@v0.153.0/examples/jsm/"
+        }
+      }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@jaames/iro@5"> </script>
+
+
+	</head>
+	<body style="background-color: white;">
+    
+    <div id="progress-container">
+      <div id="progress">LOADING 0/100</div>
+    </div>
+    <div id="canvas-container"></div>
+    <div id="picker"></div>
+    <div id=></div>
+		<script type="module" src="./main.js"></script>
+    <script> 
+    document.getElementById("picker").style.width = '400px'
+    document.getElementById("picker").style.height = '400px'
+    document.getElementById("picker").style.bottom = '0'
+    document.getElementById("picker").style.right = '0'
+    document.getElementById("picker").style.left = '0'
+    document.getElementById("picker").style.marginLeft = 'auto'
+    document.getElementById("picker").style.marginRight = 'auto'
+    document.getElementById("picker").style.position = 'absolute'
+
+    const originalSetItem = localStorage.setItem;
+
+    localStorage.setItem = function(key, value) {
+      const event = new Event('colorChange');
+
+      event.value = value; // Optional..
+      event.key = key; // Optional..
+
+      document.dispatchEvent(event);
+
+      originalSetItem.apply(this, arguments);
+    };
+
+    var colorPicker = new iro.ColorPicker("#picker", {
+      // Set the size of the color picker
+      // Set the initial color to pure red
+      width: 300,
+      color: "#f00"
+    });
+    colorPicker.on('color:change', function(color) {
+      // // log the current color as a HEX string
+      // localStorage.setItem('colorHex', color.hexString);
+
+      localStorage.setItem('color', color.hexString);
+    });</script>
+	</body>
+</html>
