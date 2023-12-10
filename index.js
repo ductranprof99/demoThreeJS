@@ -22,7 +22,7 @@ camera.position.set(15, 80, 5);
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 controls.enablePan = false;
-controls.minDistance =1;
+controls.minDistance =35;
 controls.maxDistance = 40;
 controls.minPolarAngle = 0.5;
 controls.maxPolarAngle = 1.5;
@@ -114,7 +114,7 @@ function canvasResize() {
     canvas.remove();
   }
   let container = document.getElementById('canvas-container');
-  renderer.setSize(container.offsetWidth, container.offsetHeight);
+  renderer.setSize(700, 800);
   container.appendChild(renderer.domElement);
 }
 animate();
