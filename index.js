@@ -13,9 +13,7 @@ renderer.setPixelRatio(window.devicePixelRatio);
 
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-
-document.getElementById('canvas-container').appendChild(renderer.domElement);
-
+canvasResize()
 const scene = new THREE.Scene();
 
 const camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 1, 100);
@@ -79,15 +77,14 @@ loader.load('./public/backpack.glb', (gltf) => {
 
   document.getElementById('progress-container').style.display = 'none';
   document.getElementById('canvas-container').style.display = 'flex';
+  canvasResize()
 }, ( xhr ) => {
   document.getElementById('progress').innerHTML = `LOADING ${Math.max(xhr.loaded / xhr.total, 1) * 100}/100`;
 },);
 
-// window.addEventListener('resize', () => {
-//   camera.aspect = 400/300;
-//   camera.updateProjectionMatrix();
-//   renderer.setSize(400, 300);
-// });
+window.addEventListener('resize', () => {
+  canvasResize()
+});
 
 function animate() {
   requestAnimationFrame(animate);
@@ -111,5 +108,14 @@ function changeColor(colorHex) {
 } );
 }
 
+function canvasResize() {
+  let canvas = document.getElementById('canvas');
+  if (canvas !== null && canvas !== undefined) {
+    canvas.remove();
+  }
+  let container = document.getElementById('canvas-container');
+  renderer.setSize(container.offsetWidth, container.offsetHeight);
+  container.appendChild(renderer.domElement);
+}
 animate();
 
