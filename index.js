@@ -7,7 +7,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 
-renderer.setSize(700, 800);
+renderer.setSize(window.innerWidth * 0.4, window.innerHeight * 0.4);
 renderer.setClearColor(0xFFFFFF);
 renderer.setPixelRatio(window.devicePixelRatio);
 
@@ -18,7 +18,7 @@ document.getElementById('canvas-container').appendChild(renderer.domElement);
 
 const scene = new THREE.Scene();
 
-const camera = new THREE.PerspectiveCamera(90, 5/6, 1, 100);
+const camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 1, 100);
 camera.position.set(15, 80, 5);
 
 const controls = new OrbitControls(camera, renderer.domElement);
@@ -51,12 +51,6 @@ scene.add(spotLight);
 
 // document element setup
 document.getElementById('canvas-container').style.display = 'none';
-document.getElementById('canvas-container').style.alignItems = 'center';
-document.getElementById('canvas-container').style.justifyContent = 'center';
-document.getElementById('canvas-container').style.position = 'relative';
-document.getElementById('canvas-container').style.top = '50%';
-document.getElementById('canvas-container').style.left = '50%';
-document.getElementById('canvas-container').style.transform = 'translate(-50%, -50%)';
 
 const localStorageSetHandler = function(e) {
   if (e.key === 'color') {
@@ -67,15 +61,6 @@ const localStorageSetHandler = function(e) {
 
 document.addEventListener("colorChange", localStorageSetHandler, false);
 
-
-
-// make body 100vh and 100vw
-document.body.style.margin = '0';
-document.body.style.padding = '0';
-document.body.style.overflow = 'hidden';
-document.body.style.width = '100vw';
-document.body.style.height = '100vh';
-document.body.style.backgroundColor = '#FFFFFF';
 
 // mesh loader
 const loader = new GLTFLoader();
@@ -98,11 +83,11 @@ loader.load('./public/backpack.glb', (gltf) => {
   document.getElementById('progress').innerHTML = `LOADING ${Math.max(xhr.loaded / xhr.total, 1) * 100}/100`;
 },);
 
-window.addEventListener('resize', () => {
-  camera.aspect = window.innerWidth / window.innerHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(window.innerWidth, window.innerHeight);
-});
+// window.addEventListener('resize', () => {
+//   camera.aspect = 400/300;
+//   camera.updateProjectionMatrix();
+//   renderer.setSize(400, 300);
+// });
 
 function animate() {
   requestAnimationFrame(animate);
